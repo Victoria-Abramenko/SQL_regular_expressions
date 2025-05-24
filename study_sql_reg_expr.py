@@ -784,3 +784,166 @@
 # ORDER BY Имя_писателя;
 
 
+# _____________________ expression # 1 ____________________
+# import re
+#
+# text = 'Карта map и объект bitmap - это разные вещи'
+
+# match = re.findall('map', text)
+# print(match)
+# match = re.findall('\\bmap\\b', text)
+# print(match)
+# match = re.findall(r'\bmap\b', text)
+# print(match)
+
+# import re
+#
+# text = 'еда, беда, победа'
+# match = re.findall('еда', text)
+#
+# print(match)
+
+
+# import re
+#
+# text = 'еда, беда, победа'
+# match = re.findall('(еда)', text)
+#
+# print(match)
+
+
+# import re
+#
+# text = 'еда, беда, победа'
+# match = re.findall(r'\(еда\)', text)
+#
+# print(match)
+
+#
+# import re
+#
+# text = 'еда, беда, победа, нет еды, в честь победы, поставил на стол еду'
+# match = re.findall(r'[еЕ]д[ауы]', text)
+#
+# print(match)
+
+
+# import re
+# 
+# text = 'еда, беда, победа, нет еды, в честь победы, поставил на стол еду, 55'
+# match = re.findall(r'[0123456789]', text)
+# 
+# print(match)
+
+#
+# import re
+#
+# text = 'еда, беда, победа, нет еды, в честь победы, поставил на стол еду, 55'
+# match = re.findall(r'[0123456789][0123456789]', text)
+#
+# print(match)
+
+
+# import re
+#
+# text = 'еда, беда, победа, нет еды, в честь победы, поставил на стол еду, 55'
+# match = re.findall(r'[0-9][0-9]', text)
+#
+# print(match)
+
+# import re
+#
+# text = 'еда, беда, победа, нет еды, -5, в честь победы, поставил на стол еду, 55'
+# match = re.findall(r'[-0-9][0-9]', text)
+#
+# print(match)
+
+
+# import re
+#
+# text = 'еда, беда, победа, нет еды, -5, в честь победы, поставил на стол еду, 55'
+# match = re.findall(r'[^0-9]', text)
+#
+# print(match)
+
+# import re
+#
+# text = 'еда, беда, победа, нет еды, -5, в честь победы, поставил на стол еду, 55'
+# match = re.findall(r'[а-я]', text)
+#
+# print(match)
+
+# import re
+#
+# text = 'еда, беда, победа, нет еды, -5, в честь победы, поставил на стол еду, 55'
+# match = re.findall(r'[а-яА-Я]', text)
+#
+# print(match)
+
+
+# import re
+#
+# text = 'еда, беда, победа, (нет еды), -5, в честь победы, поставил на стол еду, 55'
+# match = re.findall(r'[(&.)а-яА-Я]', text)
+#
+# print(match)
+
+# import re
+#
+# text = 'еда, беда, победа, (нет еды), -5, в честь победы, поставил на стол еду, 55'
+# match = re.findall(r'\d', text)
+#
+# print(match)
+
+# import re
+#
+# text = 'еда, беда, победа, (нет еды), -5, в честь победы, поставил на стол еду, 55'
+# match = re.findall(r'\w', text)
+#
+# print(match)
+
+# import re
+#
+# text = 'еда, беда, победа, (нет еды), -5, в честь победы, поставил на стол еду, 55'
+# match = re.findall(r'\w', text, re.ASCII)
+#
+# print(match)
+
+
+# import re
+#
+# text = 'еду, 55, 0xf, 0xa, 0x5'
+# color = re.findall(r'0x[\da-fA-F]', text)
+#
+# print(color)
+
+
+# # __________________________  task 71  _____________________
+# # Для книг, которые уже есть на складе (в таблице book), но по другой цене, чем в поставке (supply),  необходимо в таблице book увеличить количество на значение, указанное в поставке,  и пересчитать цену. А в таблице  supply обнулить количество этих книг. Формула для пересчета цены:
+# # где  p1, p2 - цена книги в таблицах book и supply;
+# #        k1, k2 - количество книг в таблицах book и supply.
+
+# UPDATE book
+#      INNER JOIN author ON author.author_id = book.author_id
+#      INNER JOIN supply ON book.title = supply.title
+#                          and supply.author = author.name_author
+# SET book.amount = book.amount + supply.amount,
+#     supply.amount = 0, book.price = (book.price * book.amount + supply.price * supply.amount) / (book.amount + supply.amount)
+# WHERE book.price <> supply.price;
+#
+# SELECT * FROM book;
+#
+# SELECT * FROM supply;
+
+
+# # __________________________  task 71  _____________________
+# # Включить новых авторов в таблицу author с помощью запроса на добавление, а затем вывести все данные из таблицы author.  Новыми считаются авторы, которые есть в таблице supply, но нет в таблице author.
+#
+# INSERT INTO author (name_author)
+# SELECT supply.author
+# FROM
+#     author
+#     RIGHT JOIN supply on author.name_author = supply.author
+# WHERE name_author IS Null;
+#
+# SELECT * FROM author;
