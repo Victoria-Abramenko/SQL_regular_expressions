@@ -947,3 +947,146 @@
 # WHERE name_author IS Null;
 #
 # SELECT * FROM author;
+
+
+
+
+# _____________________ expression # 2 ____________________
+# import re
+#
+# text = "Google, Gooogle, Goooooogle"
+# my_match = re.findall(r"o{2,5}", text)
+# print(my_match)
+
+
+# import re
+#
+# text = "Google, Gooogle, Goooooogle"
+# my_match = re.findall(r"o{2,5}?", text)
+# print(my_match)
+
+
+# import re
+#
+# text = "Google, Gooogle, Goooooogle"
+# my_match = re.findall(r"Go{2,}gle", text)
+# print(my_match)
+
+
+# import re
+#
+# text = "Google, Gooogle, Goooooogle"
+# my_match = re.findall(r"Go{,4}gle", text)
+# print(my_match)
+
+
+# import re
+#
+# phone = "89123456789"
+# my_match = re.findall(r"8\d{10}", phone)
+# print(my_match)
+
+
+
+# import re
+#
+# text = "стеклянный, стекляный"
+# my_match = re.findall(r"стеклянн?ый", text)
+# print(my_match)
+
+#
+# import re
+#
+# text = ("author=Пушкин А.С.; title = Евгений Онегин; price =200; year= 2001")
+# # my_match = text.split(";")
+# my_match = re.findall(r"\w+\s*=\s*[^;]+", text)
+# print(my_match)
+
+
+
+# import re
+#
+# text = ("author=Пушкин А.С.; title = Евгений Онегин; price =200; year= 2001")
+# my_match = re.findall(r"(\w+)\s*=\s*([^;]+)", text)
+# print(my_match)
+
+
+# import re
+#
+# text = ("<p>Картинка <img src='bg.jpg'> в тексте</p>")
+# my_match = re.findall(r"<img.*>", text)
+# print(my_match)
+
+
+# import re
+#
+# text = ("<p>Картинка <img src='bg.jpg'> в тексте</p>")
+# my_match = re.findall(r"<img.*?>", text)
+# print(my_match)
+
+
+# import re
+#
+# text = ("<p>Картинка <img src='bg.jpg'> в тексте</p>")
+# my_match = re.findall(r"<img[^>]*>", text)
+# print(my_match)
+
+
+# import re
+#
+# text = ("<p>Картинка <img> в тексте</p>")
+# # my_match = re.findall(r"<img[^>]*>", text)
+# my_match = re.findall(r"<img\s+[^>]*?src\s*=\s*[^>]>", text)
+# print(my_match)
+
+
+# import re
+#
+# text = ("<p>Картинка <img src='bg.jpg'> в тексте</p>")
+# # my_match = re.findall(r"<img[^>]*>", text)
+# my_match = re.findall(r"<img\s+[^>]*?src\s*=\s*[^>]+>", text)
+# print(my_match)
+
+
+# import re
+#
+# text = ("<p>Картинка <img alt='Картинка' src='bg.jpg'> в тексте</p>")
+# # my_match = re.findall(r"<img[^>]*>", text)
+# my_match = re.findall(r"<img\s+[^>]*?src\s*=\s*[^>]+>", text)
+# print(my_match)
+
+
+
+# # __________________________  task 72  _____________________
+# # Добавить новые книги из таблицы supply в таблицу book на основе сформированного выше запроса. Затем вывести для просмотра таблицу book.
+#
+# INSERT INTO book (title, author_id, price, amount)
+# SELECT title, author_id, price, amount
+# FROM
+#     author
+#     INNER JOIN supply ON author.name_author = supply.author
+# WHERE amount <> 0;
+#
+# SELECT * FROM book;
+
+
+# # __________________________  task 73  _____________________
+# # Занести для книги «Стихотворения и поэмы» Лермонтова жанр «Поэзия», а для книги «Остров сокровищ» Стивенсона - «Приключения». (Использовать два запроса).
+# UPDATE book
+# SET genre_id =
+#       (
+#        SELECT genre_id
+#        FROM genre
+#        WHERE name_genre = 'Поэзия'
+#       )
+# WHERE book_id = 10;
+# UPDATE book
+# SET genre_id =
+#       (
+#        SELECT genre_id
+#        FROM genre
+#        WHERE name_genre = 'Приключения'
+#       )
+# WHERE book_id = 11;
+#
+# SELECT * FROM book;
