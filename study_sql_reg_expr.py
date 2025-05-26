@@ -1090,3 +1090,164 @@
 # WHERE book_id = 11;
 #
 # SELECT * FROM book;
+
+
+# # __________________________  task 74  _____________________
+# # Удалить всех авторов и все их книги, общее количество книг которых меньше 20.
+#
+# DELETE FROM author
+# WHERE author_id IN (SELECT author_id FROM book
+#                     GROUP BY author_id
+#                    HAVING SUM(amount) < 20);
+#
+# SELECT * FROM author;
+#
+# SELECT * FROM book;
+
+
+# # __________________________  task 75  _____________________
+# # Удалить все жанры, к которым относится меньше 4-х наименований книг. В таблице book для этих жанров установить значение Null.
+# 
+# DELETE FROM genre
+# WHERE genre_id IN (SELECT genre_id FROM book
+#                     GROUP BY genre_id
+#                     HAVING COUNT(title) < 4);
+# 
+# SELECT * FROM genre;
+# 
+# SELECT * FROM book;
+
+
+# # __________________________  task 76  _____________________
+# # # Удалить всех авторов, которые пишут в жанре "Поэзия". Из таблицы book удалить все книги этих авторов. В запросе для отбора авторов использовать полное название жанра, а не его id.
+# #
+# DELETE FROM author
+# USING
+#     author
+#     INNER JOIN book ON author.author_id = book.author_id
+# WHERE book.genre_id  = (SELECT genre_id FROM genre
+#                        WHERE name_genre = "Поэзия");
+#
+# SELECT * FROM author;
+#
+# SELECT * FROM book;
+
+
+# ___________________  решение другого ученика  _____________
+# DELETE FROM author
+# USING author JOIN book USING(author_id)
+#              JOIN genre USING(genre_id)
+# WHERE name_genre='Поэзия'
+
+
+# # __________________________  task 77  _____________________
+# # Придумайте один или несколько запросов корректировки данных для таблиц book,  author, genre и supply . Проверьте, правильно ли они работают.
+#
+# DELETE FROM supply
+# USING supply INNER JOIN book ON supply.title = book.title
+# WHERE book.amount > 8;
+#
+# SELECT * FROM supply;
+
+
+# _____________________ expression # 3 ____________________
+# import re
+# 
+# text = "lat=5, lon=7"
+# # text = "pi = 3, a=1"
+# my_match = re.findall(r"\w+\s*=\s*\d+", text)
+# print(my_match)
+
+
+# import re
+#
+# text = "lat=5, lon=7"
+# # text = "pi = 3, a=1"
+# my_match = re.findall(r"lat\s*=\s*\d+|lon\s*=\s*\d+", text)
+# print(my_match)
+
+
+# import re
+#
+# text = "lat=5, lon=7"
+# # text = "pi = 3, a=1"
+# my_match = re.findall(r"(?:lat|lon)\s*=\s*\d+", text)
+# print(my_match)
+
+
+# import re
+#
+# text = "lat=5, lon=7"
+# my_match = re.findall(r"(lat|lon)\s*=\s*(\d+)", text)
+# print(my_match)
+
+
+# import re
+#
+# text = "lat=5, lon=7"
+# my_match = re.findall(r"(lat|lon)\s*=\s*(?:\d+)", text)
+# print(my_match)
+
+
+# import re
+#
+# text = "<p>Картинка <img src='bg.jpg'> в тексте</p>"
+# my_match = re.findall(r"<img\s+[^>]*src=[\"'](.+?)[\"']", text)
+# print(my_match)
+
+
+# import re
+#
+# text = "<p>Картинка <img src='bg.jpg\"> в тексте</p>"
+# my_match = re.findall(r"<img\s+[^>]*src=([\"'])(.+?)\1", text)
+# print(my_match)
+
+
+# import re
+# 
+# text = "<p>Картинка <img src='bg.jpg\"> в тексте</p>"
+# my_match = re.findall(r"<img\s+[^>]*src=(?P<q>[\"'])(.+?)(?P=q)", text)
+# print(my_match)
+
+
+# import re
+#
+# with open("map.xml", "r") as file:
+#     lat = []
+#     lon = []
+#     for text in file:
+#         my_match = re.findall(r"<point\s+[^>]*?lon=([\"\'])([0-9.,]+)\1\s+[^>]*lat=([\"\'])([0-9.,]+)\1", text)
+#         print(my_match)
+#
+#     print(lon, lat, sep="\n")
+
+
+# import re
+#
+# with open("map.xml", "r") as file:
+#     lat = []
+#     lon = []
+#     for text in file:
+#         my_match = re.findall(r"<point\s+[^>]*?lon=([\"\'])([0-9.,]+)\1\s+[^>]*lat=([\"\'])([0-9.,]+)\1", text)
+#         if len(my_match) > 0:
+#             lon.append(my_match[0][1])
+#             lat.append(my_match[0][3])
+#
+#     print(lon, lat, sep="\n")
+
+
+#
+# import re
+#
+# with open("map.xml", "r") as file:
+#     lat = []
+#     lon = []
+#     for text in file:
+#         my_match = re.search(r"<point\s+[^>]*?lon=([\"\'])(?P<lon>[0-9.,]+)\1\s+[^>]*lat=([\"\'])(?P<lat>[0-9.,]+)\1", text)
+#         if my_match:
+#             v = my_match.groupdict()
+#             if "lon" in v and "lat" in v:
+#                 lon.append(v["lon"])
+#                 lat.append(v["lat"])
+#
+# print(lon, lat, sep="\n")
