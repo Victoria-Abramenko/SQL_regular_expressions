@@ -1251,3 +1251,213 @@
 #                 lat.append(v["lat"])
 #
 # print(lon, lat, sep="\n")
+
+# # __________________________  stepik 6.7 - 1 _____________________
+# Продолжите программу, в которой уже реализовано чтение данных (чисел) из входного потока и сохранение их в виде кортежа t:
+# t = tuple(map(int, input().split()))  # кортеж из целых чисел
+# s = 0  # начальное значение суммы элементов
+# Используя моржовый оператор и переменную s, необходимо с помощью генератора списка сформировать новый список lst из сумм текущего и всех предыдущих значений кортежа t. Например, для кортежа:
+# t = (1, 2, 3, 4, 5, 6)
+# должен формироваться список:
+# lst = [1, 3, 6, 10, 15, 21]
+# Здесь каждый следующий элемент - это сумма текущего и всех предыдущих элементов кортежа t.
+# Выведите полученные значения элементов списка lst на экран в одну строчку через пробел.
+
+# t = tuple(map(int, input().split()))  # кортеж из целых чисел (в программе не менять)
+# s = 0  # начальное значение суммы элементов
+#
+# # здесь продолжайте программу
+# lst = [(s:= s + x) for x in t]
+# print(*lst)
+
+
+# # __________________________  stepik 6.7 - 2 _____________________
+# # Используя цикл while и моржовый оператор, выполните считывание целых чисел из входного потока (с клавиатуры) с подсчетом суммы четных чисел. Цикл while должен работать до тех пор, пока не встретится число 0. Полученную сумму выведите на экран.
+# # P.S. В программе для считывания целых чисел используйте команду int(input()), которая должна быть прописана только один раз.
+#
+# s = 0
+# while (x := int(input())) != 0:
+#     if x % 2 == 0:
+#         s += x
+#
+# print(s)
+
+
+# # __________________________  stepik 6.7 - 3 _____________________
+# # Продолжите программу, в которой уже объявлена функция f и формируется кортеж t:
+# # def f(x):
+# #     return abs(x) ** 0.5 + 3.2 + x
+# # t = tuple(map(float, input().split()))  # кортеж t в программе не менять
+# # Необходимо продолжить эту программу и с помощью генератора списка сформировать двумерный (вложенный) список lst на основе кортежа t, состоящий из следующих значений:
+# #   - значения элементов кортежа t.
+# # При описании генератора воспользуйтесь моржовой операцией для однократного вызова функции f(x) для каждого значения кортежа t. То есть, при формировании каждого вложенного списка:
+# #  должна вызываться однократно (один раз).
+# # P.S. На экран ничего выводить не нужно.
+# def f(x):
+#     return abs(x) ** 0.5 + 3.2 + x
+#
+#
+# t = tuple(map(float, input().split()))  # кортеж t в программе не менять
+#
+# # здесь продолжайте программу
+#
+# lst = [[c := f(x), c ** 2, c **3] for x in t]
+
+
+
+
+# # __________________________  task 78  _____________________
+#Вывести все заказы Баранова Павла (id заказа, какие книги, по какой цене и в каком количестве он заказал) в отсортированном по номеру заказа и названиям книг виде.
+
+# SELECT buy.buy_id, book.title, book.price, buy_book.amount
+# FROM client
+# INNER JOIN buy ON client.client_id = buy.client_id
+# INNER JOIN buy_book ON buy.buy_id = buy_book.buy_id
+# INNER JOIN book ON buy_book.book_id = book.book_id
+# WHERE name_client = 'Баранов Павел'
+# ORDER BY buy.buy_id, title
+
+
+
+# # __________________________  task 79  _____________________
+# Посчитать, сколько раз была заказана каждая книга, для книги вывести ее автора (нужно посчитать, в каком количестве заказов фигурирует каждая книга).  Вывести фамилию и инициалы автора, название книги, последний столбец назвать Количество. Результат отсортировать сначала  по фамилиям авторов, а потом по названиям книг.
+
+# SELECT name_author, title, COUNT(buy_book.book_id) AS Количество
+# FROM author
+# INNER JOIN book ON author.author_id = book.author_id
+# LEFT JOIN buy_book ON book.book_id = buy_book.book_id
+# GROUP BY book.book_id, book.author_id
+# ORDER BY name_author, title;
+
+
+
+# _____________________ expression #  ____________________
+# import re
+#
+# text = "Подоходный налог"
+#
+# my_match = re.findall(r"прибыль|обретение|\bдоход\b", text)
+# print(my_match)
+
+
+# import re
+#
+# text = "Подоходный налог"
+#
+# my_match = re.findall(r"\b(?:прибыль|обретение|доход)\b", text)
+# print(my_match)
+
+
+
+# # __________________________  stepik 6.7 - 4 _____________________
+# # Используя цикл while и моржовый оператор, выполните считывание целых чисел из входного потока (с клавиатуры) с подсчетом произведения чисел, кратных трем. Цикл while должен работать до тех пор, пока не встретится отрицательное число или число 0. Полученное произведение выведите на экран.
+# # P.S. В программе для считывания целых чисел используйте команду int(input()), которая должна быть прописана только один раз.
+# s = 1
+# while (d:= int(input())) > 0:
+#     if d % 3 == 0:
+#         s *= d
+#
+# print(s)
+
+
+
+# import re
+#
+# text = """
+# <!DOCTYPE html>
+# <html>
+# <head>
+# <meta charset="utf-8"/>
+# <meta name="viewport" content="width=device-width, initial-scale=1"/>
+# <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+# <title>Мое обучение</title>
+# </head>
+# <body>
+# <script type="text/javascript">
+# let o = document.getElementByID('id_div');
+# console.log(obj);
+# </script>
+# </body>
+# </html>
+# """
+#
+# my_match = re.findall(r"^<script.*?>([\w\W]+)(?=</script>)", text, re.MULTILINE)
+# print(my_match)
+
+
+# import re
+#
+# text = """
+# <!DOCTYPE html>
+# <html>
+# <head>
+# <meta charset="utf-8"/>
+# <meta name="viewport" content="width=device-width, initial-scale=1"/>
+# <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+# <title>Мое обучение</title>
+# </head>
+# <body>
+# <script type="text/javascript">
+# let o = document.getElementByID('id_div');
+# console.log(obj);
+# </script>
+# </body>
+# </html>
+# """
+#
+# my_match = re.findall(r"([-\w]+)[ \t]*=[ \t]*[\"']([^\"']+)(?<![ \t])", text, re.MULTILINE)
+# print(my_match)
+
+
+# import re
+# 
+# text = """
+# <!DOCTYPE html>
+# <html>
+# <head>
+# <meta charset="utf-8"/>
+# <meta name="viewport" content="width=device-width, initial-scale=1"/>
+# <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+# <title>Мое обучение</title>
+# </head>
+# <body>
+# <p align=center>Hello World!</p>
+# </body>
+# </html>
+# """
+# 
+# my_match = re.findall(r"([-\w]+)[ \t]*=[ \t]*(?P<q>[\"'])?(?(q)([^\"']+(?<![ \t]))|([^ \t>]+))", text, re.MULTILINE)
+# print(my_match)
+
+
+# import re
+#
+# text = """
+# <!DOCTYPE html>
+# <html>
+# <head>
+# <meta charset="utf-8"/>
+# <meta name="viewport" content="width=device-width, initial-scale=1"/>
+# <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+# <title>Мое обучение</title>
+# </head>
+# <body>
+# <p align=center>Hello World!</p>
+# </body>
+# </html>
+# """
+#
+# my_match = re.findall(r"""([-\w]+)      #выделяем атрибут
+#                     [ \t]*=[ \t]*               #далее, должно идти равно и кавычки
+#                     (?P<q>[\"'])?               #проверяем наличие кавычки
+#                     (?(q)([^\"']+(?<![ \t]))|([^ \t>]+))    #выделяем значение атрибута
+#                     """, text, re.MULTILINE|re.VERBOSE)
+# print(my_match)
+
+#
+# import re
+#
+# text = "Python, python, PYTHON, PyThOn"
+#
+# my_match = re.findall(r"(?im)python", text)
+# print(my_match)
