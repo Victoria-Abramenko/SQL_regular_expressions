@@ -274,9 +274,9 @@
 
 # # __________________________  task 29  _____________________
 # # Придумайте один или несколько запросов к нашей таблице book, используя вложенные запросы. Проверьте, правильно ли они работают.
-# 
-# SELECT title, author, price, 
-#     (SELECT MAX(price) FROM book) - price  AS Цена 
+#
+# SELECT title, author, price,
+#     (SELECT MAX(price) FROM book) - price  AS Цена
 # FROM book
 # WHERE price < (SELECT MAX(price) FROM book);
 
@@ -371,7 +371,7 @@
 
 # # __________________________  task 38  _____________________
 # # Создать таблицу заказ (ordering), куда включить авторов и названия тех книг, количество экземпляров которых в таблице book меньше среднего количества экземпляров книг в таблице book. В таблицу включить столбец   amount, в котором для всех книг указать одинаковое значение - среднее количество экземпляров книг в таблице book.
-# 
+#
 # CREATE TABLE ordering AS
 # SELECT author, title,
 #    (
@@ -381,7 +381,7 @@
 # FROM book
 # WHERE amount < (SELECT ROUND(AVG(amount))
 #     FROM book);
-# 
+#
 # SELECT * FROM ordering;
 
 
@@ -829,10 +829,10 @@
 
 
 # import re
-# 
+#
 # text = 'еда, беда, победа, нет еды, в честь победы, поставил на стол еду, 55'
 # match = re.findall(r'[0123456789]', text)
-# 
+#
 # print(match)
 
 #
@@ -1107,14 +1107,14 @@
 
 # # __________________________  task 75  _____________________
 # # Удалить все жанры, к которым относится меньше 4-х наименований книг. В таблице book для этих жанров установить значение Null.
-# 
+#
 # DELETE FROM genre
 # WHERE genre_id IN (SELECT genre_id FROM book
 #                     GROUP BY genre_id
 #                     HAVING COUNT(title) < 4);
-# 
+#
 # SELECT * FROM genre;
-# 
+#
 # SELECT * FROM book;
 
 
@@ -1152,7 +1152,7 @@
 
 # _____________________ expression # 3 ____________________
 # import re
-# 
+#
 # text = "lat=5, lon=7"
 # # text = "pi = 3, a=1"
 # my_match = re.findall(r"\w+\s*=\s*\d+", text)
@@ -1204,7 +1204,7 @@
 
 
 # import re
-# 
+#
 # text = "<p>Картинка <img src='bg.jpg\"> в тексте</p>"
 # my_match = re.findall(r"<img\s+[^>]*src=(?P<q>[\"'])(.+?)(?P=q)", text)
 # print(my_match)
@@ -1331,7 +1331,7 @@
 
 
 
-# _____________________ expression #  ____________________
+# _____________________ expression # 4 ____________________
 # import re
 #
 # text = "Подоходный налог"
@@ -1358,6 +1358,9 @@
 #         s *= d
 #
 # print(s)
+
+
+
 
 
 
@@ -1410,7 +1413,7 @@
 
 
 # import re
-# 
+#
 # text = """
 # <!DOCTYPE html>
 # <html>
@@ -1425,7 +1428,7 @@
 # </body>
 # </html>
 # """
-# 
+#
 # my_match = re.findall(r"([-\w]+)[ \t]*=[ \t]*(?P<q>[\"'])?(?(q)([^\"']+(?<![ \t]))|([^ \t>]+))", text, re.MULTILINE)
 # print(my_match)
 
@@ -1461,3 +1464,168 @@
 #
 # my_match = re.findall(r"(?im)python", text)
 # print(my_match)
+
+
+# _____________________ expression # 5 ____________________
+# import re
+#
+# text = "<font color=#CC0000>"
+# my_match = re.search(r"(\w+)=(#[\da-fA-F]{6})\b", text)
+# print(my_match)
+# print(my_match.group(0))
+# print(my_match.group(1))
+# print(my_match.group(0, 1, 2))
+# print(my_match.groups())
+# print(my_match.lastindex)
+# print(my_match.start(1))
+# print(my_match.end(1))
+# print(my_match.span(1))
+# print(my_match.endpos)
+# print(my_match.pos)
+# print(my_match.re)
+# print(my_match.string)
+
+
+# import re
+#
+# text = "<font color=#CC0000>"
+# my_match = re.search(r"(?P<key>\w+)=(?P<value>#[\da-fA-F]{6}\b)", text)
+# print(my_match.groupdict())
+# print(my_match.lastgroup)
+# print(my_match.expand(r"\g<key>:\g<value>"))
+# print(my_match.expand(r"\1:\2"))
+
+
+# import re
+#
+# text = "<font color=#CC0000 bg=#ffffff>"
+# my_match = re.search(r"(?P<key>\w+)=(?P<value>#[\da-fA-F]{6}\b)", text)
+# print(my_match)
+
+
+# import re
+#
+# text = "<font color=#CC0000 bg=#ffffff>"
+# for my_match in re.finditer(r"(?P<key>\w+)=(?P<value>#[\da-fA-F]{6}\b)", text):
+#     print(my_match)
+
+
+# import re
+#
+# text = "<font color=#CC0000 bg=#ffffff>"
+# my_match = re.findall(r"(?P<key>\w+)=(?P<value>#[\da-fA-F]{6}\b)", text)
+# print(my_match)
+
+
+# # __________________________  task 80  _____________________
+# # Вывести города, в которых живут клиенты, оформлявшие заказы в интернет-магазине. Указать количество заказов в каждый город, этот столбец назвать Количество. Информацию вывести по убыванию количества заказов, а затем в алфавитном порядке по названию городов.
+# SELECT name_city, COUNT(buy.buy_id) AS Количество
+# FROM city
+# INNER JOIN client ON city.city_id = client.city_id
+# LEFT JOIN buy ON client.client_id = buy.client_id
+# GROUP BY city.name_city
+# ORDER BY Количество DESC, name_city;
+
+
+
+# # __________________________  task 81  _____________________
+# # Вывести номера всех оплаченных заказов и даты, когда они были оплачены.
+# SELECT buy_id, date_step_end
+# FROM step
+# INNER JOIN buy_step ON step.step_id = buy_step.step_id
+# WHERE buy_step.step_id = 1 AND date_step_end IS NOT NULL
+# ORDER BY date_step_end;
+
+
+
+# _____________________ expression # 6 ____________________
+# import re
+#
+# text = "+7(123)456-78-90"
+# m = re.match(r"\+7\(\d{3}\)\d{3}-\d{2}-\d{2}", text)
+# print(m)
+
+
+
+# import re
+#
+# text = " +7(123)456-78-90"
+# m = re.match(r"\+7\(\d{3}\)\d{3}-\d{2}-\d{2}", text)
+# print(m)
+
+
+# import re
+#
+# text = """<point lon="40.8482" lat="52.6274" />
+# <point lon="40.8482" lat="52.6274" />; <point lon="40.8482" lat="52.6274" />
+# <point lon="40.8482" lat="52.6274" />, <point lon="40.8482" lat="52.6274" />
+# """
+# m = re.split(r"[\n;,]+", text)
+# print(m)
+
+
+# import re
+#
+# text = """Москва
+# Казань
+# Тверь
+# Самара
+# Уфа
+# """
+# lst = re.sub(r"\s*(\w+)\s*", r"<option>\1</option>\n", text)
+# print(lst)
+
+
+# import re
+# 
+# text = """Москва
+# Казань
+# Тверь
+# Самара
+# Уфа
+# """
+# 
+# 
+# count = 0
+# def repl_find(m):
+#     global count
+#     count += 1
+#     return f"<option value='{count}'>{m.group(1)}</option>\n"
+# 
+# lst = re.sub(r"\s*(\w+)\s*", repl_find, text)
+# print(lst)
+
+
+
+# import re
+#
+# text = """Москва
+# Казань
+# Тверь
+# Самара
+# Уфа
+# """
+# lst, total = re.subn(r"\s*(\w+)\s*", r"<option>\1</option>\n", text)
+# print(lst, total)
+
+#
+# import re
+#
+# text = """Москва
+# Казань
+# Тверь
+# Самара
+# Уфа
+# """
+#
+#
+# count = 0
+# def repl_find(m):
+#     global count
+#     count += 1
+#     return f"<option value='{count}'>{m.group(1)}</option>\n"
+#
+# rx = re.compile(r"\s*(\w+)\s*")
+# lst, total = rx.subn(r"<option>\1</option>\n", text)
+# lst2 = rx.sub(repl_find, text)
+# print(lst, total, lst2, sep="\n")
