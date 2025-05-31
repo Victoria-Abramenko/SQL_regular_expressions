@@ -1629,3 +1629,29 @@
 # lst, total = rx.subn(r"<option>\1</option>\n", text)
 # lst2 = rx.sub(repl_find, text)
 # print(lst, total, lst2, sep="\n")
+
+
+
+# # __________________________  task 82  _____________________
+# # Вывести информацию о каждом заказе: его номер, кто его сформировал (фамилия пользователя) и его стоимость (сумма произведений количества заказанных книг и их цены), в отсортированном по номеру заказа виде. Последний столбец назвать Стоимость.
+# SELECT buy_id, name_client, SUM(buy_book.amount * price) AS Стоимость
+# FROM buy_book
+# JOIN buy USING (buy_id)
+# JOIN client USING (client_id)
+# JOIN book USING (book_id)
+# GROUP BY buy_id
+# ORDER BY buy_id;
+
+
+# # __________________________  task 83  _____________________
+# # Вывести номера заказов (buy_id) и названия этапов,  на которых они в данный момент находятся. Если заказ доставлен –  информацию о нем не выводить. Информацию отсортировать по возрастанию buy_id.
+# SELECT
+#     buy_step.buy_id, step.name_step
+# FROM step
+# JOIN
+#     buy_step ON step.step_id = buy_step.step_id
+# WHERE
+#     buy_step.date_step_beg IS NOT NULL
+#     AND buy_step.date_step_end IS NULL
+# ORDER BY
+#     buy_step.buy_id;
