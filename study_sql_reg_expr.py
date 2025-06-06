@@ -1676,3 +1676,83 @@
 #     step_id = 3 AND date_step_end IS NOT NULL
 # ORDER BY
 #     buy_id
+
+
+# # __________________________  task 85  _____________________
+# # Выбрать всех клиентов, которые заказывали книги Достоевского, информацию вывести в отсортированном по алфавиту виде. В решении используйте фамилию автора, а не его id.
+#
+# SELECT DISTINCT name_client
+# FROM
+#     author
+# JOIN
+#     book USING (author_id)
+# JOIN
+#     buy_book USING (book_id)
+# JOIN
+#     buy USING (buy_id)
+# JOIN
+#     client USING (client_id)
+# WHERE
+#     name_author = "Достоевский Ф.М."
+# ORDER BY
+#     name_client;
+
+
+# # __________________________  task 86  _____________________
+# # Вывести жанр (или жанры), в котором было заказано больше всего экземпляров книг, указать это количество . Последний столбец назвать Количество.
+#
+# SELECT
+#     name_genre, SUM(buy_book.amount) AS Количество
+# FROM
+#     genre
+# JOIN
+#     book USING (genre_id)
+# JOIN
+#     buy_book USING (book_id)
+# GROUP BY
+#     genre_id
+# HAVING
+#     SUM(buy_book.amount) = (
+#         SELECT MAX(сумма)
+#         FROM
+#         (SELECT name_genre, SUM(buy_book.amount) AS
+#     сумма FROM genre
+# JOIN
+#     book USING (genre_id)
+# JOIN
+#     buy_book USING (book_id)
+# GROUP BY
+#     genre_id) AS жанры
+# );
+
+
+# # __________________________  task 87  _____________________
+# # Сравнить ежемесячную выручку от продажи книг за текущий и предыдущий годы. Для этого вывести год, месяц, сумму выручки в отсортированном сначала по возрастанию месяцев, затем по возрастанию лет виде. Название столбцов: Год, Месяц, Сумма.
+#
+# SELECT
+#     YEAR(date_payment) AS Год,
+#     MONTHNAME(date_payment) AS Месяц,
+#     SUM(amount * price) AS Сумма
+# FROM
+#     buy_archive
+# GROUP BY
+#     Год, Месяц
+# UNION
+# SELECT
+#     YEAR(date_step_end) AS Год,
+#     MONTHNAME(date_step_end) AS Месяц,
+#     SUM(buy_book.amount * price) AS Сумма
+# FROM
+#     book
+#     INNER JOIN buy_book USING(book_id)
+#     INNER JOIN buy USING(buy_id)
+#     INNER JOIN buy_step USING(buy_id)
+#     INNER JOIN step USING(step_id)
+# WHERE
+#     step.name_step = "Оплата" AND
+#     buy_step.date_step_end IS NOT NULL AND
+#     YEAR(date_step_end) IN (2019 , 2020)
+# GROUP BY
+#     Год, Месяц
+# ORDER BY
+#     Месяц ASC, Год ASC;
