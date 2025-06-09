@@ -1756,3 +1756,53 @@
 #     Год, Месяц
 # ORDER BY
 #     Месяц ASC, Год ASC;
+
+
+# # __________________________  task 88  _____________________
+# # Для каждой отдельной книги необходимо вывести информацию о количестве проданных экземпляров и их стоимости за 2020 и 2019 год . За 2020 год проданными считать те экземпляры, которые уже оплачены. Вычисляемые столбцы назвать Количество и Сумма. Информацию отсортировать по убыванию стоимости.
+
+# SELECT
+#     title,
+#     SUM(Количество) AS Количество,
+#     SUM(Сумма) AS Сумма
+# FROM
+#     (
+#     SELECT
+#         book.title,
+#         SUM(buy_book.amount) AS Количество,
+#         SUM(buy_book.amount * book.price) AS Сумма
+#     FROM
+#         book
+#     JOIN
+#         buy_book USING(book_id)
+#     JOIN
+#         buy_step USING(buy_id)
+#     WHERE
+#         step_id = 1 AND date_step_end IS NOT NULL AND YEAR(date_step_end) = 2020
+#     GROUP BY
+#         book.title
+#
+#     UNION ALL
+#
+#     SELECT
+#         book.title,
+#         SUM(buy_archive.amount) AS Количество,
+#         SUM(buy_archive.amount *   buy_archive.price) AS Сумма
+#     FROM
+#         buy_archive
+#     JOIN
+#         book USING(book_id)
+#     WHERE
+#         YEAR(buy_archive.date_payment) = 2019
+#     GROUP BY
+#         book.title
+#     ) AS combined
+# GROUP BY title
+# ORDER BY
+#   Сумма DESC;
+
+
+
+# # __________________________  task 89  _____________________
+#
+
