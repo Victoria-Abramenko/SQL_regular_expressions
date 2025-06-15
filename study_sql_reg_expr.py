@@ -1804,5 +1804,39 @@
 
 
 # # __________________________  task 89  _____________________
+# # Придумайте один или несколько запросов на выборку для предметной области «Интернет-магазин книг» (в таблицы занесены данные, как на первом шаге урока). Проверьте, правильно ли они работают.
 #
+# SELECT name_client FROM client
+# WHERE client_id IN (
+#     SELECT client_id FROM buy
+#     JOIN buy_book USING (buy_id)
+#     JOIN book USING(book_id)
+#     WHERE book.title IN ("Белая гвардия", "Игрок")
+# )
+# ORDER BY name_client;
+
+# # __________________________  task 90  _____________________
+# # Включить нового человека в таблицу с клиентами. Его имя Попов Илья, его email popov@test, проживает он в Москве.
+#
+# INSERT INTO client(name_client, city_id, email)
+# VALUES ("Попов Илья",
+#         (
+#             SELECT city_id FROM city
+#             WHERE name_city = "Москва"
+#         ),
+#         "popov@test"
+#        )
+
+
+
+# # # __________________________  task 91  _____________________
+# # Создать новый заказ для Попова Ильи. Его комментарий для заказа: «Связаться со мной по вопросу доставки».
+#
+# INSERT INTO buy SET buy_description = "Связаться со мной по вопросу доставки", client_id
+# = (SELECT client_id FROM client
+#    WHERE name_client = "Попов Илья"
+#   )
+
+
+
 
