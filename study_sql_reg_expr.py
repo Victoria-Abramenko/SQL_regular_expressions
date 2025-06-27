@@ -1866,3 +1866,28 @@
 # WHERE buy_book.buy_id = 5;
 
 
+# # # __________________________  task 94  _____________________
+# # Создать счет (таблицу buy_pay) на оплату заказа с номером 5, в который включить название книг, их автора, цену, количество заказанных книг и  стоимость. Последний столбец назвать Стоимость. Информацию в таблицу занести в отсортированном по названиям книг виде.
+#
+# CREATE TABLE buy_pay (
+#    title VARCHAR(255),
+#    name_author VARCHAR(255),
+#    price DECIMAL(5,2),
+#    amount INTEGER,
+#    Стоимость DECIMAL(10,2)
+# );
+# INSERT INTO buy_pay (title, name_author, price, amount, Стоимость)
+# SELECT
+#     book.title,
+#     author.name_author,
+#     book.price,
+#     buy_book.amount,
+#     book.price * buy_book.amount AS Стоимость
+# FROM author
+# JOIN
+#     book ON author.author_id = book.author_id
+# JOIN
+#     buy_book ON book.book_id = buy_book.book_id
+# WHERE buy_id = 5
+# ORDER BY title;
+# SELECT * FROM buy_pay;
