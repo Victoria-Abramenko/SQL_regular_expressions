@@ -1891,3 +1891,30 @@
 # WHERE buy_id = 5
 # ORDER BY title;
 # SELECT * FROM buy_pay;
+
+
+
+# # # __________________________  task 95  _____________________
+# # Создать общий счет (таблицу buy_pay) на оплату заказа с номером 5. Куда включить номер заказа, количество книг в заказе (название столбца Количество) и его общую стоимость (название столбца Итого). Для решения используйте ОДИН запрос.
+#
+# CREATE TABLE buy_pay AS
+# SELECT
+#     buy_book.buy_id,
+#     SUM(buy_book.amount) AS Количество,
+#     SUM(book.price * buy_book.amount) AS Итого
+# FROM buy_book
+# JOIN book USING(book_id)
+# WHERE buy_book.buy_id = 5;
+
+
+
+# # # __________________________  task 96  _____________________
+# # В таблицу buy_step для заказа с номером 5 включить все этапы из таблицы step, которые должен пройти этот заказ. В столбцы date_step_beg и date_step_end всех записей занести Null.
+#
+# INSERT INTO buy_step (buy_id, step_id, date_step_beg, date_step_end)
+# SELECT
+#     5 AS buy_id,
+#     step_id,
+#     NULL AS date_step_beg,
+#     NULL AS date_step_end
+# FROM step;
