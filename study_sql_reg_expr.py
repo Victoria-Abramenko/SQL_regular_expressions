@@ -1918,3 +1918,58 @@
 #     NULL AS date_step_beg,
 #     NULL AS date_step_end
 # FROM step;
+
+
+# # # __________________________  task 97  _____________________
+# # В таблицу buy_step занести дату 12.04.2020 выставления счета на оплату заказа с номером 5.
+# #
+# # Правильнее было бы занести не конкретную, а текущую дату. Это можно сделать с помощью функции Now(). Но при этом в разные дни будут вставляться разная дата, и задание нельзя будет проверить, поэтому  вставим дату 12.04.2020.
+#
+# UPDATE buy_step
+# JOIN step USING(step_id)
+# SET date_step_beg = '2020-04-12'
+# WHERE buy_id = 5 AND step_id = 1;
+
+
+# # # __________________________  task 98  _____________________
+# Завершить этап «Оплата» для заказа с номером 5, вставив в столбец date_step_end дату 13.04.2020, и начать следующий этап («Упаковка»), задав в столбце date_step_beg для этого этапа ту же дату.
+#
+# # Реализовать два запроса для завершения этапа и начале следующего. Они должны быть записаны в общем виде, чтобы его можно было применять для любых этапов, изменив только текущий этап. Для примера пусть это будет этап «Оплата».
+#
+# UPDATE buy_step
+# JOIN step USING(step_id)
+# SET date_step_end = '2020-04-13'
+# WHERE buy_id = 5 AND name_step = 'Оплата';
+#
+# UPDATE buy_step
+# JOIN step USING(step_id)
+# SET date_step_beg = '2020-04-13'
+# WHERE buy_id = 5 AND (
+#     step.step_id = (
+#         SELECT step_id + 1 FROM step
+#         WHERE step_id = (
+#             SELECT step_id FROM step
+#             WHERE name_step = 'Оплата')
+#     )
+# );
+
+
+# # # __________________________  task 99  _____________________
+# # Придумайте один или несколько запросов корректировки данных для предметной области «Интернет-магазин книг» (в таблицы занесены данные, как на этом шаге). Проверьте, правильно ли они работают.
+#
+# UPDATE buy_step
+# JOIN step USING(step_id)
+# SET date_step_end = '2020-03-03'
+# WHERE buy_id = 2 AND name_step = 'Транспортировка';
+#
+# UPDATE buy_step
+# JOIN step USING(step_id)
+# SET date_step_beg = '2020-03-03'
+# WHERE buy_id = 2 AND (
+#     step.step_id = (
+#         SELECT step_id + 1 FROM step
+#         WHERE step_id = (
+#             SELECT step_id FROM step
+#             WHERE name_step = 'Транспортировка')
+#     )
+# );
