@@ -2007,3 +2007,35 @@
 # JOIN attempt USING(student_id)
 # WHERE attempt.result = (SELECT MAX(result) FROM attempt)
 # ORDER BY student.name_student
+
+
+
+# # # __________________________  task 103  _____________________
+# # Если студент совершал несколько попыток по одной и той же дисциплине, то вывести разницу в днях между первой и последней попыткой. В результат включить фамилию и имя студента, название дисциплины и вычисляемый столбец Интервал. Информацию вывести по возрастанию разницы. Студентов, сделавших одну попытку по дисциплине, не учитывать.
+#
+# SELECT DISTINCT name_student, name_subject,
+#     DATEDIFF(MAX_attempt_date, MIN_attempt_date) AS Интервал
+# FROM student
+# JOIN attempt USING(student_id)
+# JOIN subject USING(subject_id)
+# JOIN (
+#     SELECT student_id, subject_id,
+#         MIN(date_attempt) AS MIN_attempt_date,
+#         MAX(date_attempt) AS MAX_attempt_date
+#     FROM attempt
+#     GROUP BY student_id, subject_id
+#     HAVING COUNT(attempt_id) > 1
+# ) AS subquery USING(student_id, subject_id)
+# ORDER BY Интервал;
+
+
+
+# # # __________________________  task 104  _____________________
+# # Студенты могут тестироваться по одной или нескольким дисциплинам (не обязательно по всем). Вывести дисциплину и количество уникальных студентов (столбец назвать Количество), которые по ней проходили тестирование . Информацию отсортировать сначала по убыванию количества, а потом по названию дисциплины. В результат включить и дисциплины, тестирование по которым студенты еще не проходили, в этом случае указать количество студентов 0.
+#
+# SELECT name_subject, COUNT(DISTINCT(student_id)) AS Количество
+# FROM attempt
+# RIGHT JOIN subject USING (subject_id)
+# GROUP BY name_subject
+# ORDER BY Количество DESC, name_subject
+
