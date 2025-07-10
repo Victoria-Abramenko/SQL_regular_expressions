@@ -2039,3 +2039,23 @@
 # GROUP BY name_subject
 # ORDER BY Количество DESC, name_subject
 
+
+# # # __________________________  task 105  _____________________
+# # Случайным образом отберите 3 вопроса по дисциплине «Основы баз данных». В результат включите столбцы question_id и name_question.
+#
+# SELECT question_id, name_question
+# FROM question
+# JOIN subject USING(subject_id)
+# WHERE name_subject = 'Основы баз данных'
+# ORDER BY RAND()
+# LIMIT 3;
+
+
+# # # __________________________  task 106  _____________________
+# # Вывести вопросы, которые были включены в тест для Семенова Ивана по дисциплине «Основы SQL» 2020-05-17  (значение attempt_id для этой попытки равно 7). Указать, какой ответ дал студент и правильный он или нет (вывести Верно или Неверно). В результат включить вопрос, ответ и вычисляемый столбец  Результат.
+#
+# SELECT name_question, name_answer, IF(is_correct = 1, "Верно", "Неверно") AS Результат
+# FROM question
+# JOIN testing USING(question_id)
+# JOIN answer USING(answer_id)
+# WHERE attempt_id = 7;
